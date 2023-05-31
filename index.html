@@ -1,13 +1,25 @@
 <!DOCTYPE html>
+<!-- npx tailwindcss -i ./src/input.css -o styles.css --watch -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
     <title>Tic-Tac-Toe</title>
 </head>
 <body>
-  
+    <div class="grid grid-cols-3 grid-rows-3  gap-1 w-64 h-64 bg-black" id="gridcontainer">
+        <button class="bg-white" data-key="1" id="tile1">1</button>
+        <button class="bg-white" data-key="2" id="tile2"></button>
+        <button class="bg-white" data-key="3" id="tile3"></button>
+        <button class="bg-white" data-key="4" id="tile4"></button>
+        <button class="bg-white" data-key="5" id="tile5"></button>
+        <button class="bg-white" data-key="6" id="tile6"></button>
+        <button class="bg-white" data-key="7" id="tile7"></button>
+        <button class="bg-white" data-key="8" id="tile8"></button>
+        <button class="bg-white" data-key="9" id="tile9"></button>
+    </div>
 </body>
 </html>

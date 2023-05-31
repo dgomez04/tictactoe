@@ -11,10 +11,12 @@ const gameBoard = (() => {
     // setTile
     const setTile = (index, sign) => Board[index] = sign;
     
+    //checkWin -> goes through array to check for winner
+
     //clear
     const clearBoard = () => {
         for(let i = 0; i < Board.length; i++)
-            Board[i] = "";
+            Board[i] = undefined;
     };
 
     return {getTile, setTile, clearBoard};
@@ -22,6 +24,29 @@ const gameBoard = (() => {
 
 // displayController -> associates display with backend
 
-// gameController -> controls gameplay, creates players
+const displayController = (() => {
 
-// Player -> sets symbol to be either "x" or "y"
+    const tileSet = document.querySelectorAll('#gridcontainer > *');
+
+    // checkTile (if getTile != "")
+    function checkTile(index) {
+        return (gameBoard.getTile(index) != undefined) ? true : false;
+    }
+
+    // drawTile -> draw all Tiles
+    const drawTiles = () => {
+        tileSet.forEach((tile) => {
+            tile.textContent = gameBoard.getTile(tile.dataset.key);
+        });
+    }
+
+    return {checkTile, drawTiles}
+})();
+
+// gameController -> controls gameplay, creates players, finds winner
+
+// Player -> sets symbol to be either "x" or "o"
+
+const Player = ((sign) => {
+    return {sign}
+});

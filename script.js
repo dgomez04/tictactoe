@@ -1,9 +1,11 @@
 
+const tileSet = document.querySelectorAll('#gridcontainer > *');
+
 // gameBoard controller -> controls logic board and its attributes
 
 const gameBoard = (() => {
 
-    const Board = ["", "", "", "", "", "", "", "", ""]
+    const Board = ["", "", "", "", "", "", "", "", ""];
 
     const getTile = (index) =>  Board[index]; 
 
@@ -18,9 +20,9 @@ const gameBoard = (() => {
             [0,4,8], [2,4,6]
         ]
 
+        //TO DO: CHECK WIN 
         for(let i = 0; i < winCombo.length; i++) {
-            return((gameBoard.getTile(winCombo[i][0]) != "" || gameBoard.getTile(winCombo[i][0]) 
-            === gameBoard.getTile(winCombo[i][1] === gameBoard.getTile(winCombo[i][2]))) ? true : false)
+            
         }
     };
 
@@ -36,10 +38,8 @@ const gameBoard = (() => {
 
 const displayController = (() => {
 
-    const tileSet = document.querySelectorAll('#gridcontainer > *');
-
     function checkTile(index) {
-        return (gameBoard.getTile(index) != undefined) ? true : false;
+        return (gameBoard.getTile(index) != "") ? true : false;
     }
 
     const updateTiles = () => {
@@ -58,8 +58,31 @@ const Player = ((sign) => {
 });
 
 // gameController -> controls gameplay, playRound
+
 const gameController = (() => {
     const playerOne =  Player('X');
     const playerTwo =  Player('O');
+
+    let round = 0
+
+    const playRound = (index) => {
+        if(displayController.checkTile = true) {
+            let currentPlayer = (round % 2 == 0) ? playerOne : playerTwo;
+            gameBoard.setTile(index, currentPlayer.sign);
+            displayController.updateTiles();
+            round++;
+        }
+    }
+
+    return {playRound}
+
 })();
 
+// eventListener for buttons
+
+tileSet.forEach((button) => {
+    button.addEventListener('click', () => {
+        gameController.playRound(button.dataset.key);
+        button.classList.add('pointer-events-none');
+    });
+});

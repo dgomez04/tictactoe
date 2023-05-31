@@ -526,10 +526,6 @@ video {
   pointer-events: none;
 }
 
-.pointer-events-auto {
-  pointer-events: auto;
-}
-
 .grid {
   display: grid;
 }

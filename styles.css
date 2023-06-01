@@ -526,6 +526,18 @@ video {
   pointer-events: none;
 }
 
+.mt-96 {
+  margin-top: 24rem;
+}
+
+.mt-48 {
+  margin-top: 12rem;
+}
+
+.flex {
+  display: flex;
+}
+
 .grid {
   display: grid;
 }
@@ -534,8 +546,16 @@ video {
   height: 16rem;
 }
 
+.h-96 {
+  height: 24rem;
+}
+
 .w-64 {
   width: 16rem;
+}
+
+.w-96 {
+  width: 24rem;
 }
 
 .grid-cols-3 {
@@ -544,6 +564,14 @@ video {
 
 .grid-rows-3 {
   grid-template-rows: repeat(3, minmax(0, 1fr));
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
 }
 
 .gap-1 {

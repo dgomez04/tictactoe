@@ -9,9 +9,12 @@ const gameBoard = (() => {
 
     const getTile = (index) =>  Board[index]; 
 
-    const setTile = (index, sign) => Board[index] = sign;
+    const setTile = (index, sign) => {
+        Board[index] = sign; 
+        displayController.updateTiles();
+    }
+
     
-    //TO DO: find a way to write the function cleaner
     const checkWin = () => {
         const winCombo = [
             [0,1,2], [3,4,5], 
@@ -20,15 +23,28 @@ const gameBoard = (() => {
             [0,4,8], [2,4,6]
         ]
 
-        //TO DO: CHECK WIN 
+        let result = false;
+
         for(let i = 0; i < winCombo.length; i++) {
-            
+            let firstTile = gameBoard.getTile(winCombo[i][0]);
+            let secondTile = gameBoard.getTile(winCombo[i][1]);
+            let thirdTile = gameBoard.getTile(winCombo[i][2]);
+
+            if(firstTile != 0 && firstTile == secondTile && firstTile == thirdTile){
+                result = true;
+                break;
+            } 
         }
+
+        return result;
     };
 
     const clearBoard = () => {
         for(let i = 0; i < Board.length; i++)
             Board[i] = "";
+
+        displayController.updateTiles();
+
     };
 
     return {getTile, setTile, checkWin, clearBoard};
@@ -69,9 +85,21 @@ const gameController = (() => {
         if(displayController.checkTile = true) {
             let currentPlayer = (round % 2 == 0) ? playerOne : playerTwo;
             gameBoard.setTile(index, currentPlayer.sign);
-            displayController.updateTiles();
             round++;
+
+            // TO DO: finish logic to end game.
+            if(gameBoard.checkWin() == true || round == 9) {
+                endRound();
+            }
         }
+    }
+
+    // TO DO: find way to remove pointer-events, 
+    // spawns a button and blurs background to play again,
+    // this button resets all pointer events and clears board.
+    
+    const endRound = () => {
+
     }
 
     return {playRound}

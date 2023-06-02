@@ -10,7 +10,7 @@
     <title>Tic-Tac-Toe</title>
 </head>
 <body>
-    <div class="flex mt-48 items-center justify-center">
+    <div class="flex mt-48 items-center justify-center flex-col">
         <div class="grid grid-cols-3 grid-rows-3 gap-1 w-96 h-96 bg-black" id="gridcontainer">
             <button class="bg-white" data-key="0" id="tile1"></button>
             <button class="bg-white" data-key="1" id="tile2"></button>
@@ -23,8 +23,10 @@
             <button class="bg-white" data-key="8" id="tile9"></button>
         </div>   
 
+        <button class="w-32 h-12 mt-8 bg-blue-600 rounded-lg font-semibold text-white shadow-md" id="resetBtn">Reset</button>
+
         <div class="fixed flex items-center justify-center w-full h-full backdrop-blur-sm opacity-0 pointer-events-none" id="modalcontainer"> 
-            <button class="w-32 h-12 bg-green-500 rounded-lg font-semibold text-white shadow-md" id="againBtn">Play Again</button>
+            <button class="w-32 h-12 bg-blue-600 rounded-lg font-semibold text-white shadow-md" id="againBtn">Play Again</button>
         </div>
 
     </div>

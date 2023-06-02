@@ -5,6 +5,8 @@ const modalContainer = document.querySelector('#modalcontainer');
 
 const againBtn = document.querySelector('#againBtn');
 
+const resetBtn = document.querySelector('#resetBtn');
+
 // gameBoard controller -> controls logic board and its attributes
 
 const gameBoard = (() => {
@@ -99,6 +101,15 @@ const gameController = (() => {
             }
         }
     }
+
+    resetBtn.addEventListener('click', () => {
+        round = 0;
+        gameBoard.clearBoard();
+    
+        tileSet.forEach((button) => {
+            button.classList.remove('pointer-events-none')
+        });
+    });
 
     return {playRound}
 })();

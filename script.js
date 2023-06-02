@@ -3,6 +3,8 @@ const tileSet = document.querySelectorAll('#gridcontainer > *');
 
 const modalContainer = document.querySelector('#modalcontainer');
 
+const againBtn = document.querySelector('#againBtn');
+
 // gameBoard controller -> controls logic board and its attributes
 
 const gameBoard = (() => {
@@ -83,10 +85,6 @@ const gameController = (() => {
 
     let round = 0
 
-
-    // TO DO: find way to remove pointer-events, 
-    // spawns a button and blurs background to play again,
-    // this button resets all pointer events and clears board.
     const endRound = () => modalContainer.classList.remove('opacity-0', 'pointer-events-none');
 
     const playRound = (index) => {
@@ -95,8 +93,8 @@ const gameController = (() => {
             gameBoard.setTile(index, currentPlayer.sign);
             round++;
 
-            // TO DO: finish logic to end game.
             if(gameBoard.checkWin() == true || round == 9) {
+                round = 0;
                 endRound();
             }
         }
@@ -111,5 +109,14 @@ tileSet.forEach((button) => {
     button.addEventListener('click', () => {
         gameController.playRound(button.dataset.key);
         button.classList.add('pointer-events-none');
+    });
+});
+
+againBtn.addEventListener('click', () => {
+    modalContainer.classList.add('opacity-0', 'pointer-events-none');
+    gameBoard.clearBoard();
+
+    tileSet.forEach((button) => {
+        button.classList.remove('pointer-events-none')
     });
 });

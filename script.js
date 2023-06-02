@@ -1,6 +1,8 @@
 
 const tileSet = document.querySelectorAll('#gridcontainer > *');
 
+const modalContainer = document.querySelector('#modalcontainer');
+
 // gameBoard controller -> controls logic board and its attributes
 
 const gameBoard = (() => {
@@ -30,7 +32,7 @@ const gameBoard = (() => {
             let secondTile = gameBoard.getTile(winCombo[i][1]);
             let thirdTile = gameBoard.getTile(winCombo[i][2]);
 
-            if(firstTile != 0 && firstTile == secondTile && firstTile == thirdTile){
+            if(firstTile != "" && firstTile == secondTile && firstTile == thirdTile){
                 result = true;
                 break;
             } 
@@ -81,6 +83,12 @@ const gameController = (() => {
 
     let round = 0
 
+
+    // TO DO: find way to remove pointer-events, 
+    // spawns a button and blurs background to play again,
+    // this button resets all pointer events and clears board.
+    const endRound = () => modalContainer.classList.remove('opacity-0', 'pointer-events-none');
+
     const playRound = (index) => {
         if(displayController.checkTile = true) {
             let currentPlayer = (round % 2 == 0) ? playerOne : playerTwo;
@@ -94,16 +102,7 @@ const gameController = (() => {
         }
     }
 
-    // TO DO: find way to remove pointer-events, 
-    // spawns a button and blurs background to play again,
-    // this button resets all pointer events and clears board.
-    
-    const endRound = () => {
-
-    }
-
     return {playRound}
-
 })();
 
 // eventListener for buttons

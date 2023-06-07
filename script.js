@@ -13,6 +13,7 @@ const gameBoard = (() => {
 
     const Board = ["", "", "", "", "", "", "", "", ""];
 
+
     const getTile = (index) =>  Board[index]; 
 
     const setTile = (index, sign) => {
@@ -20,7 +21,9 @@ const gameBoard = (() => {
         displayController.updateTiles();
     }
 
+    const checkDraw = (round) => ((round == 9) ?  true : false);
     
+
     const checkWin = () => {
         const winCombo = [
             [0,1,2], [3,4,5], 
@@ -29,7 +32,7 @@ const gameBoard = (() => {
             [0,4,8], [2,4,6]
         ]
 
-        let result = false;
+        this.result = false;
 
         for(let i = 0; i < winCombo.length; i++) {
             let firstTile = gameBoard.getTile(winCombo[i][0]);
@@ -37,11 +40,11 @@ const gameBoard = (() => {
             let thirdTile = gameBoard.getTile(winCombo[i][2]);
 
             if(firstTile != "" && firstTile == secondTile && firstTile == thirdTile){
-                result = true;
+                this.result = true;
                 break;
             } 
         }
-
+    
         return result;
     };
 
@@ -53,7 +56,7 @@ const gameBoard = (() => {
 
     };
 
-    return {getTile, setTile, checkWin, clearBoard};
+    return {getTile, setTile, checkWin, checkDraw, clearBoard};
 })();
 
 // displayController -> associates display with logic
@@ -79,23 +82,45 @@ const Player = ((sign) => {
     return {sign}
 });
 
+// TO DO: working AI Logic using minimax algo
+const Score = (() => {
+    if(gameBoard.checkWin() == true &&  gameController.getCurrentPlayer() == 'X') {
+        return 100;
+    } else if(gameBoard.checkWin() == true && gameController.getCurrentPlayer() == 'O') {
+        return -100;
+    } else if(gameBoard.checkDraw == true){
+        return 0;
+    }
+});
+
+const getBestMove = (() => {
+    //TODO: STUDY HOW TO IMPLEMENT
+    let bestMove;
+    let bestScore = -10000;
+    let moves = [];
+
+});
+
+
 // gameController -> controls gameplay, playRound
 
 const gameController = (() => {
     const playerOne =  Player('X');
-    const playerTwo =  Player('O');
+    const playerAI =  Player('O');
 
-    let round = 0
+    let round = 0;
+
+    const getCurrentPlayer = () => (round % 2 == 0) ? playerOne.sign : playerAI.sign;
+     
 
     const endRound = () => modalContainer.classList.remove('opacity-0', 'pointer-events-none');
 
     const playRound = (index) => {
         if(displayController.checkTile = true) {
-            let currentPlayer = (round % 2 == 0) ? playerOne : playerTwo;
-            gameBoard.setTile(index, currentPlayer.sign);
+            gameBoard.setTile(index, getCurrentPlayer());
             round++;
 
-            if(gameBoard.checkWin() == true || round == 9) {
+            if(gameBoard.checkWin() == true || gameBoard.checkDraw(round) == true) {
                 round = 0;
                 endRound();
             }
@@ -111,7 +136,7 @@ const gameController = (() => {
         });
     });
 
-    return {playRound}
+    return {playRound, getCurrentPlayer}
 })();
 
 // eventListener for buttons
@@ -131,3 +156,4 @@ againBtn.addEventListener('click', () => {
         button.classList.remove('pointer-events-none')
     });
 });
+

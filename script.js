@@ -21,7 +21,7 @@ const gameBoard = (() => {
         displayController.updateTiles();
     }
 
-    const checkDraw = (round) => ((round == 9) ?  true : false);
+    const checkDraw = (round) => ((round > 9) ?  true : false);
     
 
     const checkWin = () => {
@@ -197,7 +197,7 @@ const gameController = (() => {
     
             let move = easyAI();
             gameBoard.setTile(move, getCurrentPlayer());
-            round+= 1;
+            round += 1;
             
             tileSet.forEach((button) => {
                 if(button.dataset.key == move) {

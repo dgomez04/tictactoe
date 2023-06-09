@@ -48,6 +48,15 @@ const gameBoard = (() => {
         return result;
     };
 
+    const getAvailableMoves = (moves) => {
+        for(let i = 0; i < Board.length; i++) {
+            if(Board[i] == "") {
+                moves.push(i);
+            }
+        }
+        return moves;
+    }
+
     const clearBoard = () => {
         for(let i = 0; i < Board.length; i++)
             Board[i] = "";
@@ -56,7 +65,7 @@ const gameBoard = (() => {
 
     };
 
-    return {getTile, setTile, checkWin, checkDraw, clearBoard};
+    return {getTile, setTile, checkWin, checkDraw, getAvailableMoves, clearBoard, Board};
 })();
 
 // displayController -> associates display with logic
@@ -82,23 +91,78 @@ const Player = ((sign) => {
     return {sign}
 });
 
-// TO DO: working AI Logic using minimax algo
+// Score utilized for minimax algo.
 const Score = (() => {
-    if(gameBoard.checkWin() == true &&  gameController.getCurrentPlayer() == 'X') {
-        return 100;
+    if(gameBoard.checkWin() == true && gameController.getCurrentPlayer() == 'X') {
+        return 10;
     } else if(gameBoard.checkWin() == true && gameController.getCurrentPlayer() == 'O') {
-        return -100;
+        return -10;
     } else if(gameBoard.checkDraw == true){
         return 0;
     }
 });
 
+//TODO : RUN BOARD INSTEAD OF GETTING AVAILABLE MOVES 
+const minimax = ((isMax) => {
+    Score();
+    let moves = [];
+    gameBoard.getAvailableMoves(moves);
+
+    if(isMax) {
+        let bestScore = -1000;
+        for(let i = 0; i < moves.length; i++) {
+            gameBoard.setTile(moves[i], 'O');
+
+            bestScore = Math.max(bestScore, minimax(false));
+
+            gameBoard.setTile(moves[i], '');
+        }
+
+        return bestScore;
+        
+    } else {
+
+        let bestScore = 1000;
+
+        for(let i = 0; i < moves.length; i++) {
+            gameBoard.setTile(moves[i], 'O');
+
+            // runs recursively and chooses the minimum value;
+            bestScore = Math.min(bestScore, minimax(true));
+
+            gameBoard.setTile(moves[i], '');
+        }
+
+        return bestScore;
+
+    }
+});
+
 const getBestMove = (() => {
-    //TODO: STUDY HOW TO IMPLEMENT
     let bestMove;
     let bestScore = -10000;
     let moves = [];
 
+    gameBoard.getAvailableMoves(moves);
+
+    //evaluate every single space
+    for(let i = 0; i < moves.length; i++) {
+        //sets value
+        gameBoard.setTile(moves[i], 'O')
+
+        //evals value
+        moveScore = minimax(false);
+
+        //undo move
+        gameBoard.setTile(moves[i], "");
+
+        if(moveScore > bestScore) {
+            bestMove = moves[i];
+            bestScore = moveScore;
+        }
+    }
+    
+    return bestMove;
 });
 
 
@@ -118,7 +182,18 @@ const gameController = (() => {
     const playRound = (index) => {
         if(displayController.checkTile = true) {
             gameBoard.setTile(index, getCurrentPlayer());
-            round++;
+            round+= 1;
+    
+            let move = getBestMove();
+            gameBoard.setTile(move, getCurrentPlayer());
+            round+= 1;
+            
+            tileSet.forEach((button) => {
+                if(button.dataset.key == move) {
+                    button.classList.add('pointer-events-none')
+                }
+            });
+    
 
             if(gameBoard.checkWin() == true || gameBoard.checkDraw(round) == true) {
                 round = 0;

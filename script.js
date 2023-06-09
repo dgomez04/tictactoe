@@ -91,7 +91,15 @@ const Player = ((sign) => {
     return {sign}
 });
 
-// Score utilized for minimax algo.
+// Selects a random number of index between all available moves.
+
+const easyAI = (() => {
+    let moves = [];
+    gameBoard.getAvailableMoves(moves);
+    return moves[Math.floor(Math.random() * moves.length)];
+});
+
+/*
 const Score = (() => {
     if(gameBoard.checkWin() == true && gameController.getCurrentPlayer() == 'X') {
         return 10;
@@ -102,7 +110,7 @@ const Score = (() => {
     }
 });
 
-//TODO : RUN BOARD INSTEAD OF GETTING AVAILABLE MOVES 
+// WORK IN PROGRESS
 const minimax = ((isMax) => {
     Score();
     let moves = [];
@@ -119,7 +127,7 @@ const minimax = ((isMax) => {
         }
 
         return bestScore;
-        
+
     } else {
 
         let bestScore = 1000;
@@ -137,6 +145,8 @@ const minimax = ((isMax) => {
 
     }
 });
+
+// WORK IN PROGRESS
 
 const getBestMove = (() => {
     let bestMove;
@@ -165,6 +175,7 @@ const getBestMove = (() => {
     return bestMove;
 });
 
+*/
 
 // gameController -> controls gameplay, playRound
 
@@ -184,7 +195,7 @@ const gameController = (() => {
             gameBoard.setTile(index, getCurrentPlayer());
             round+= 1;
     
-            let move = getBestMove();
+            let move = easyAI();
             gameBoard.setTile(move, getCurrentPlayer());
             round+= 1;
             
